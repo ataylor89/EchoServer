@@ -11,14 +11,12 @@ import java.util.logging.Logger;
  *
  * @author andrewtaylor
  */
-public class ConnectionListener extends Thread {
+public class ConnectionManager extends Thread {
     
     private EchoServer server;
-    private Vector<Client> clients;
     
-    public ConnectionListener(EchoServer server, Vector<Client> clients) {
+    public ConnectionManager(EchoServer server) {
         this.server = server;
-        this.clients = clients;
     }
     
     public void run() {
@@ -28,16 +26,9 @@ public class ConnectionListener extends Thread {
 
                 if (socket != null) {
                     Client client = new Client(socket, server);
-                    clients.add(client);
+                    server.getClients().add(client);
                     client.getClientService().start();
                     System.out.println("EchoServer: Added client");
-                }
-                
-                for (int i = 0; i < clients.size(); i++) {
-                    if (!clients.get(i).getSocket().isConnected()) {
-                        clients.get(i).getSocket().close();
-                        clients.remove(i);
-                    }
                 }
             } catch (IOException ex) {
                 Logger.getLogger(EchoServer.class.getName()).log(Level.SEVERE, null, ex);

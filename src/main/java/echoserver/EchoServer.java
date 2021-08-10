@@ -15,7 +15,7 @@ public class EchoServer {
     private ServerSocket serverSocket;
     private final int port = 8200;
     
-    private ConnectionListener connectionListener;
+    private ConnectionManager connectionManager;
     private Vector<Client> clients;
 
     public EchoServer() {
@@ -27,8 +27,8 @@ public class EchoServer {
         serverSocket = new ServerSocket(port);
         System.out.println("EchoServer: Listening on port " + port);
         System.out.println("EchoServer: Accepting clients");
-        connectionListener = new ConnectionListener(this, clients);
-        connectionListener.start();
+        connectionManager = new ConnectionManager(this);
+        connectionManager.start();
         System.out.println("EchoServer: Echoing messages");
     }
     
@@ -42,6 +42,10 @@ public class EchoServer {
     
     public ServerSocket getServerSocket() {
         return serverSocket;
+    }
+    
+    public Vector<Client> getClients() {
+        return clients;
     }
     
     public static void main(String[] args) throws IOException {

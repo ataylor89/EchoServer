@@ -59,4 +59,13 @@ public class Client {
         
         return clientService;
     }
+    
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        server.getClients().remove(this);
+    }
 }

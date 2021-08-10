@@ -40,5 +40,6 @@ public class ClientService extends Thread {
                 Logger.getLogger(EchoServer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        client.close();
     }
 }
